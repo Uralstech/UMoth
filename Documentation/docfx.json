@@ -9,6 +9,9 @@
           ]
         }
       ],
+      "properties": {
+        "DefineConstants": "UNITY_ANDROID"
+      },
       "dest": "api",
       "filter": "filterConfig.yml",
       "includePrivateMembers": false,
