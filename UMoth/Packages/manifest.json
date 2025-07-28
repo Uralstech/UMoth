@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "com.unity.ide.visualstudio": "2.0.23"
+  },
+  "scopedRegistries": [
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.uralstech"
+      ],
+      "overrideBuiltIns": true
+    }
+  ]
+}
