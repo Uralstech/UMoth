@@ -1,0 +1,18 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+// swift-module-flags: -target x86_64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name UMoth
+// swift-module-flags-ignorable:  -interface-compiler-version 6.1.2
+import AuthenticationServices
+import Foundation
+import Swift
+import UIKit
+@_exported import UMoth
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import os.log
+import os
+@_cdecl("umoth_appleid_auth_start_sign_in")
+public func startSignIn(requestScopes: UMoth.AppleIdScopeWrapper, nonce: Swift.UnsafePointer<Swift.CChar>?, state: Swift.UnsafePointer<Swift.CChar>?, onSignedInCallback: @convention(c) (UMoth.AppleIdCredentialWrapper) -> Swift.Void, onSignInFailedCallback: @convention(c) (UMoth.AppleIdAuthorizationErrorCode) -> Swift.Void) -> Swift.Bool
+@_cdecl("umoth_free_native_buffer")
+public func freeNativeBuffer(ptr: Swift.UnsafeMutableRawPointer)
