@@ -63,7 +63,6 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// </remarks>
         /// <param name="nativeComponents">The native object to read.</param>
         /// <returns>The managed object or <see langword="null"/> if <paramref name="nativeComponents"/> is <see langword="null"/>.</returns>
-        [return: NotNullIfNotNull(nameof(nativeComponents))]
         protected static PersonNameComponents? ReadNameComponentsToManagedType(ref NativePersonNameComponents? nativeComponents)
         {
             if (nativeComponents is null)
