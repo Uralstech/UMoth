@@ -1,5 +1,5 @@
 {
-    "name": "UMoth.Editor.IOS",
+    "name": "UMoth.Editor",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [
