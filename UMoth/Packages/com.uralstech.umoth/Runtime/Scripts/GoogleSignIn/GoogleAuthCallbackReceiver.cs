@@ -64,7 +64,7 @@ namespace Uralstech.UMoth.GoogleSignIn
 
                 case "onSignInFailed":
                     AndroidJNIHelper.Unbox(AndroidJNI.GetObjectArrayElement(javaArgs, 0), out int reason);
-                    _callbackReceiver.OnSignInFailed((SignInFailReason)reason);
+                    _callbackReceiver.OnSignInFailed((GoogleSignInErrorCode)reason);
                     return IntPtr.Zero;
 
                 case "onSignedOut":
