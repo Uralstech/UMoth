@@ -1,0 +1,17 @@
+{
+    "name": "UMoth.AppleIdSignIn.IOSNative",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [
+        "Editor",
+        "iOS"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

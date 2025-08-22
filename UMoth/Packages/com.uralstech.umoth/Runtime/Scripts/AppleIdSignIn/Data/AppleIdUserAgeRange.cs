@@ -13,33 +13,34 @@
 // limitations under the License.
 
 #nullable enable
-namespace Uralstech.UMoth.GoogleSignIn
+namespace Uralstech.UMoth.AppleIdSignIn
 {
     /// <summary>
-    /// Callback receiver object for Google auth events.
+    /// Wrapper for ASUserAgeRange.
     /// </summary>
-    public interface IGoogleAuthCallbackReceiver
+    public enum AppleIdUserAgeRange
     {
         /// <summary>
-        /// Called when the sign-in flow succeeds.
+        /// The age range was not returned during the sign-in operation.
         /// </summary>
-        /// <param name="credential">The Google ID Token credential.</param>
-        public void OnSignedIn(GoogleIdTokenCredential credential);
+        /// <remarks>
+        /// This is not a part of ASUserAgeRange, but is returned if the device or OS does not support ASUserAgeRange.
+        /// </remarks>
+        NotAvailable = 0,
 
         /// <summary>
-        /// Called when the sign-in flow fails.
+        /// This is returned if the project is missing the required entitlement to support child accounts.
         /// </summary>
-        /// <param name="reason">The reason for failure.</param>
-        public void OnSignInFailed(GoogleSignInErrorCode reason);
+        Unknown = 1,
 
         /// <summary>
-        /// Called when the sign-out flow succeeds.
+        /// The user is a child.
         /// </summary>
-        public void OnSignedOut();
+        Child = 2,
 
         /// <summary>
-        /// Called when the sign-out flow fails.
+        /// The user is not a child.
         /// </summary>
-        public void OnSignOutFailed();
+        NotChild = 3
     }
 }

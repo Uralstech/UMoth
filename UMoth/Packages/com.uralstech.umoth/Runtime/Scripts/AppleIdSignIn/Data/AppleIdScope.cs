@@ -12,27 +12,30 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+
 #nullable enable
-namespace Uralstech.UMoth.GoogleSignIn
+namespace Uralstech.UMoth.AppleIdSignIn
 {
     /// <summary>
-    /// Reason for Sign-In failures.
+    /// The kinds of contact information that can be requested from the user.
     /// </summary>
-    public enum SignInFailReason
+    [Flags]
+    public enum AppleIdScope
     {
         /// <summary>
-        /// Generic error from the native credential request.
+        /// No scopes have been authorized.
         /// </summary>
-        GenericError = 0,
+        None = 0,
 
         /// <summary>
-        /// The returned credential was not recognized.
+        /// A scope that includes the user's email address.
         /// </summary>
-        UnknownCredentialType = 1,
+        FullName = 1 << 0,
 
         /// <summary>
-        /// The Google ID token was not valid.
+        /// A scope that includes the user's full name.
         /// </summary>
-        InvalidGoogleIdResponse = 2,
+        Email = 1 << 1
     }
 }

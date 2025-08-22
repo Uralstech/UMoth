@@ -16,30 +16,23 @@
 namespace Uralstech.UMoth.GoogleSignIn
 {
     /// <summary>
-    /// Callback receiver object for Google auth events.
+    /// Error codes for Sign-In failures.
     /// </summary>
-    public interface IGoogleAuthCallbackReceiver
+    public enum GoogleSignInErrorCode
     {
         /// <summary>
-        /// Called when the sign-in flow succeeds.
+        /// Generic error from the native credential request.
         /// </summary>
-        /// <param name="credential">The Google ID Token credential.</param>
-        public void OnSignedIn(GoogleIdTokenCredential credential);
+        GenericError = 0,
 
         /// <summary>
-        /// Called when the sign-in flow fails.
+        /// The returned credential was not recognized.
         /// </summary>
-        /// <param name="reason">The reason for failure.</param>
-        public void OnSignInFailed(GoogleSignInErrorCode reason);
+        UnknownCredentialType = 1,
 
         /// <summary>
-        /// Called when the sign-out flow succeeds.
+        /// The Google ID token was not valid.
         /// </summary>
-        public void OnSignedOut();
-
-        /// <summary>
-        /// Called when the sign-out flow fails.
-        /// </summary>
-        public void OnSignOutFailed();
+        InvalidGoogleIdResponse = 2,
     }
 }
