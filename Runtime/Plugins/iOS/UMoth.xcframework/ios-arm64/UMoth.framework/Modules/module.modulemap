@@ -1,0 +1,6 @@
+framework module UMoth {
+  umbrella header "UMoth.h"
+  export *
+
+  module * { export * }
+}
