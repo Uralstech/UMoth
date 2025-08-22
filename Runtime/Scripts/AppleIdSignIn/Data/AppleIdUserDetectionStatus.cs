@@ -13,33 +13,26 @@
 // limitations under the License.
 
 #nullable enable
-namespace Uralstech.UMoth.GoogleSignIn
+namespace Uralstech.UMoth.AppleIdSignIn
 {
     /// <summary>
-    /// Callback receiver object for Google auth events.
+    /// Wrapper for ASUserDetectionStatus.
     /// </summary>
-    public interface IGoogleAuthCallbackReceiver
+    public enum AppleIdUserDetectionStatus
     {
         /// <summary>
-        /// Called when the sign-in flow succeeds.
+        /// Not supported on current platform, ignore the value.
         /// </summary>
-        /// <param name="credential">The Google ID Token credential.</param>
-        public void OnSignedIn(GoogleIdTokenCredential credential);
+        Unsupported = 0,
 
         /// <summary>
-        /// Called when the sign-in flow fails.
+        /// We could not determine the value. New users in the ecosystem will get this value as well, so you should not block these users, but instead treat them as any new user through standard email sign up flows.
         /// </summary>
-        /// <param name="reason">The reason for failure.</param>
-        public void OnSignInFailed(GoogleSignInErrorCode reason);
+        Unknown = 1,
 
         /// <summary>
-        /// Called when the sign-out flow succeeds.
+        /// A hint that we have high confidence that the user is real.
         /// </summary>
-        public void OnSignedOut();
-
-        /// <summary>
-        /// Called when the sign-out flow fails.
-        /// </summary>
-        public void OnSignOutFailed();
+        LikelyReal = 2
     }
 }
