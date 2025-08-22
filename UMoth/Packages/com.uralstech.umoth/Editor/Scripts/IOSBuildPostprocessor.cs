@@ -8,7 +8,7 @@ using UnityEngine;
 /// <summary>
 /// Patches the built XCode project to include the Sign In with Apple capability.
 /// </summary>
-public class BuildPostprocessor : MonoBehaviour
+public class IOSBuildPostprocessor : MonoBehaviour
 {
     [PostProcessBuild]
     public static void OnPostProcessBuild(BuildTarget _, string path)
