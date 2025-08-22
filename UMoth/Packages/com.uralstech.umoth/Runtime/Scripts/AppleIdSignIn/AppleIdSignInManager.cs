@@ -112,11 +112,12 @@ namespace Uralstech.UMoth.AppleIdSignIn
         }
 
         [MonoPInvokeCallback(typeof(NativeCalls.OnSignInFailedCallback))]
-        private static void OnSignInFailedCallback(short nativeErrorCode)
+        private static async void OnSignInFailedCallback(short nativeErrorCode)
         {
             AppleIdSignInErrorCode managedErrorCode = (AppleIdSignInErrorCode)nativeErrorCode;
             s_logger.LogError($"Sign in failed with error code: {managedErrorCode}");
 
+            await Awaitable.MainThreadAsync();
             Instance._onSignInFailed?.Invoke(managedErrorCode);
             Instance.OnSignInFailed.Invoke(managedErrorCode);
         }
