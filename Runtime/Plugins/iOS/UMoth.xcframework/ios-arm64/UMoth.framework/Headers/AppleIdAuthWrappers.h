@@ -64,11 +64,8 @@ typedef struct {
     const char* state;
     const AppleIdScopeWrapper scopes;
     
-    const uint8_t* authorizationCode;
-    const uint32_t authorizationCodeSize;
-    
-    const uint8_t* identityToken;
-    const uint32_t identityTokenSize;
+    const char* authorizationCode;
+    const char* identityToken;
     
     const char* email;
     const PersonNameComponentsWrapper* fullName;

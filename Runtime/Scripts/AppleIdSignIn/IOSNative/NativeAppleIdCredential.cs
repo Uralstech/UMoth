@@ -39,6 +39,9 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// These may contain a subset of the requested scopes on @see ASAuthorizationAppleIDRequest.
         /// The application should query this value to identify which scopes were returned as it maybe different from ones requested.
         /// </summary>
+        /// <remarks>
+        /// TODO: Fix this, it always returns 0.
+        /// </remarks>
         public byte Scopes;
 
         /// <summary>
@@ -46,29 +49,13 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// The authorization code is bound to the specific transaction using the state attribute passed in the authorization request.
         /// The server component of the app can validate the code using Apple's identity service endpoint provided for this purpose.
         /// </summary>
-        /// <remarks>
-        /// This is a native buffer of bytes.
-        /// </remarks>
-        public IntPtr AuthorizationCode;
-
-        /// <summary>
-        /// Size of <see cref="AuthorizationCode"/>.
-        /// </summary>
-        public uint AuthorizationCodeSize;
+        public string? AuthorizationCode;
 
         /// <summary>
         /// A JSON Web Token (JWT) used to communicate information about the identity of the user in a secure way to the app.
         /// The ID token will contain the following information: Issuer Identifier, Subject Identifier, Audience, Expiry Time and Issuance Time signed by Apple's identity service.
         /// </summary>
-        /// <remarks>
-        /// This is a native buffer of bytes.
-        /// </remarks>
-        public IntPtr IdentityToken;
-
-        /// <summary>
-        /// Size of <see cref="IdentityToken"/>.
-        /// </summary>
-        public uint IdentityTokenSize;
+        public string? IdentityToken;
 
         /// <summary>
         /// An optional email shared by the user. This field is populated with a value that the user authorized.
@@ -125,20 +112,11 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// </remarks>
         public void Dispose()
         {
-            if (AuthorizationCode != IntPtr.Zero)
-                NativeCalls.umoth_free_native_buffer(AuthorizationCode);
-
-            if (IdentityToken != IntPtr.Zero)
-                NativeCalls.umoth_free_native_buffer(IdentityToken);
-
             if (UnwrapFullName() is NativePersonNameComponents components)
             {
                 // If at this point FullName has not been accessed, manually deallocate it.
                 components.Dispose();
             }
-
-            AuthorizationCode = IntPtr.Zero;
-            IdentityToken = IntPtr.Zero;
         }
     }
 }

@@ -1,25 +1,25 @@
 #if UNITY_IOS
 
-using UnityEditor;
-using UnityEditor.Callbacks;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 using UnityEditor.iOS.Xcode;
-using UnityEngine;
 
 /// <summary>
 /// Patches the built XCode project to include the Sign In with Apple capability.
 /// </summary>
-public class IOSBuildPostprocessor : MonoBehaviour
+public class IOSBuildPostprocessor : IPostprocessBuildWithReport
 {
-    [PostProcessBuild]
-    public static void OnPostProcessBuild(BuildTarget _, string path)
+    public int callbackOrder => 999;
+
+    public void OnPostprocessBuild(BuildReport report)
     {
-        string projectPath = PBXProject.GetPBXProjectPath(path);
+        string projectPath = PBXProject.GetPBXProjectPath(report.summary.outputPath);
 
         PBXProject project = new();
         project.ReadFromFile(projectPath);
 
         string mainTargetGuid = project.GetUnityMainTargetGuid();
-        string entitlementFilePath = project.GetEntitlementFilePathForTarget(mainTargetGuid);
+        string entitlementFilePath = project.GetEntitlementFilePathForTarget(mainTargetGuid) ?? "Unity-iPhone/Entitlements.entitlements";
 
         ProjectCapabilityManager capabilityManager = new(projectPath, entitlementFilePath, targetGuid: mainTargetGuid);
         capabilityManager.AddSignInWithApple();

@@ -15,16 +15,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "AuthenticationServices",
-        "printedName": "AuthenticationServices",
-        "declKind": "Import",
-        "moduleName": "UMoth",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
         "kind": "Function",
         "name": "startSignIn",
         "printedName": "startSignIn(requestScopes:nonce:state:onSignedInCallback:onSignInFailedCallback:)",
@@ -209,6 +199,16 @@
         "printedName": "UIKit",
         "declKind": "Import",
         "moduleName": "UMoth"
+      },
+      {
+        "kind": "Import",
+        "name": "AuthenticationServices",
+        "printedName": "AuthenticationServices",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
       }
     ],
     "json_format_version": 8
