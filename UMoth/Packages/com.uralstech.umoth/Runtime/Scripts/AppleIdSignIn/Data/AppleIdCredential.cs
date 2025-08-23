@@ -35,6 +35,9 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// These may contain a subset of the requested scopes on @see ASAuthorizationAppleIDRequest.
         /// The application should query this value to identify which scopes were returned as it maybe different from ones requested.
         /// </summary>
+        /// <remarks>
+        /// TODO: Fix this, it always returns 0.
+        /// </remarks>
         public readonly AppleIdScope Scopes;
 
         /// <summary>
@@ -42,13 +45,13 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// The authorization code is bound to the specific transaction using the state attribute passed in the authorization request.
         /// The server component of the app can validate the code using Apple's identity service endpoint provided for this purpose.
         /// </summary>
-        public readonly byte[]? AuthorizationCode;
+        public readonly string? AuthorizationCode;
 
         /// <summary>
         /// A JSON Web Token (JWT) used to communicate information about the identity of the user in a secure way to the app.
         /// The ID token will contain the following information: Issuer Identifier, Subject Identifier, Audience, Expiry Time and Issuance Time signed by Apple's identity service.
         /// </summary>
-        public readonly byte[]? IdentityToken;
+        public readonly string? IdentityToken;
 
         /// <summary>
         /// An optional email shared by the user. This field is populated with a value that the user authorized.
@@ -72,7 +75,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// </summary>
         public readonly AppleIdUserAgeRange UserAgeRange;
 
-        internal protected AppleIdCredential(string userId, string? state, AppleIdScope scopes, byte[]? authorizationCode, byte[]? identityToken, string? email, PersonNameComponents? fullName, AppleIdUserDetectionStatus realUserStatus, AppleIdUserAgeRange userAgeRange)
+        internal protected AppleIdCredential(string userId, string? state, AppleIdScope scopes, string? authorizationCode, string? identityToken, string? email, PersonNameComponents? fullName, AppleIdUserDetectionStatus realUserStatus, AppleIdUserAgeRange userAgeRange)
         {
             UserId = userId;
             State = state;

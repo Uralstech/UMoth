@@ -23,14 +23,13 @@ internal func strdupC(_ str: String?) -> UnsafePointer<CChar>? {
     return UnsafePointer(cStr)
 }
 
-internal func allocateNativeBuffer(from data: Data?) -> UnsafePointer<UInt8>? {
+internal func decodeUtf8Data(from data: Data?) -> UnsafePointer<CChar>? {
     guard let data = data else {
         return nil
     }
     
-    let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: data.count)
-    data.copyBytes(to: buffer, count: data.count)
-    return UnsafePointer(buffer)
+    let decodedStr = String(data: data, encoding: .utf8)
+    return strdupC(decodedStr)
 }
 
 @_cdecl("umoth_free_native_buffer")
