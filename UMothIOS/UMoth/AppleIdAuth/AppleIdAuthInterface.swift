@@ -13,6 +13,23 @@
 // limitations under the License.
 
 import AuthenticationServices
+import Security
+
+@_cdecl("umoth_appleid_auth_get_credential_state")
+public func getCredentialState(userId: String, onResult: @convention(c) @escaping (AppleIdCredentialStateWrapper, String) -> Void) {
+    logger.log("Getting AppleID credential state.")
+    
+    let appleIDProvider = ASAuthorizationAppleIDProvider()
+    appleIDProvider.getCredentialState(forUserID: userId) { (state, error) in
+        if error != nil {
+            logger.error("Failed to get AppleID credential state due to error, state: \(state.rawValue), error message: \(error?.localizedDescription ?? "")")
+        } else {
+            logger.log("Got AppleID credential state: \(state.rawValue)")
+        }
+        
+        onResult(AppleIdCredentialStateWrapper(UInt8(state.rawValue)), error?.localizedDescription ?? "")
+    }
+}
 
 @_cdecl("umoth_appleid_auth_start_sign_in")
 public func startSignIn(

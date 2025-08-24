@@ -31,6 +31,21 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         public static extern void umoth_free_native_buffer(IntPtr ptr);
 
         /// <summary>
+        /// Callback delegate for when ASAuthorizationAppleIDProvider.getCredentialState() completes executing.
+        /// </summary>
+        /// <param name="state">The state of the credential.</param>
+        /// <param name="errorDescription">Any error which occurred while trying to get the state.</param>
+        public delegate void GetCredentialStateCallback(byte state, string errorDescription);
+
+        /// <summary>
+        /// Returns the credential state for the given user in a completion handler.
+        /// </summary>
+        /// <param name="userId">An opaque string associated with the Apple ID that your app receives in the credential's user property after performing a successful authentication request.</param>
+        /// <param name="callback">A block the method calls to report the state and an optional error condition.</param>
+        [DllImport("__Internal")]
+        public static extern void umoth_appleid_auth_get_credential_state(string userId, GetCredentialStateCallback callback);
+
+        /// <summary>
         /// Callback delegate for when AppleID Sign-In completes successfully.
         /// </summary>
         /// <param name="credential">The native ASAuthorizationAppleIDCredential wrapper.</param>

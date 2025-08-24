@@ -48,8 +48,15 @@ namespace Uralstech.UMoth.AppleIdSignIn
         [Tooltip("Called when the sign-in flow fails, with the failure reason.")]
         public UnityEvent<AppleIdSignInErrorCode> OnSignInFailed = new();
 
+        /// <summary>
+        /// Called when the credential state checking operation completes, with the state and any error that occurred.
+        /// </summary>
+        [Tooltip("Called when the credential state checking operation completes, with the state and any error that occurred.")]
+        public UnityEvent<AppleIdCredentialState, string> OnGotCredentialState = new();
+
         private Action<AppleIdCredential>? _onSignedIn;
         private Action<AppleIdSignInErrorCode>? _onSignInFailed;
+        private Action<AppleIdCredentialState, string>? _onGotCredentialState;
 
         #region iOS Native Interface
 #if UNITY_IOS
@@ -119,6 +126,20 @@ namespace Uralstech.UMoth.AppleIdSignIn
             Instance._onSignInFailed?.Invoke(managedErrorCode);
             Instance.OnSignInFailed.Invoke(managedErrorCode);
         }
+
+        [MonoPInvokeCallback(typeof(NativeCalls.GetCredentialStateCallback))]
+        private static async void GetCredentialStateCallback(byte state, string errorDescription)
+        {
+            AppleIdCredentialState managedState = (AppleIdCredentialState)state;
+            if (string.IsNullOrEmpty(errorDescription))
+                s_logger.Log($"Got credential state: {managedState}");
+            else
+                s_logger.LogError($"Got credential state {managedState} with error: {errorDescription}");
+
+            await Awaitable.MainThreadAsync();
+            Instance._onGotCredentialState?.Invoke(managedState, errorDescription);
+            Instance.OnGotCredentialState.Invoke(managedState, errorDescription);
+        }
 #endif
         #endregion
 
@@ -127,6 +148,40 @@ namespace Uralstech.UMoth.AppleIdSignIn
         {
             base.Awake();
             DontDestroyOnLoad(gameObject);
+        }
+
+        /// <summary>
+        /// Returns the credential state for the given user.
+        /// </summary>
+        /// <param name="userId">An opaque string associated with the Apple ID that your app receives in the credential’s user property after performing a successful authentication request.</param>
+        /// <returns>The state and any error that occurred.</returns>
+        public async Awaitable<(AppleIdCredentialState state, string errorDescription)> GetCredentialStateAsync(string userId)
+        {
+            TaskCompletionSource<(AppleIdCredentialState, string)> tcs = new();
+            void OnResult(AppleIdCredentialState state, string errorDescription) => tcs.SetResult((state, errorDescription));
+
+            await Awaitable.MainThreadAsync();
+            _onGotCredentialState += OnResult;
+
+            GetCredentialState(userId);
+            await tcs.Task;
+
+            _onGotCredentialState -= OnResult;
+            return tcs.Task.Result;
+        }
+
+        /// <summary>
+        /// Returns the credential state for the given user in <see cref="OnGotCredentialState"/>.
+        /// </summary>
+        /// <param name="userId">An opaque string associated with the Apple ID that your app receives in the credential’s user property after performing a successful authentication request.</param>
+        public void GetCredentialState(string userId)
+        {
+#if UNITY_IOS
+            s_logger.Log("Getting the credential state from iOS.");
+            NativeCalls.umoth_appleid_auth_get_credential_state(userId, GetCredentialStateCallback);
+#else
+            throw new NotSupportedException($"{nameof(AppleIdSignInManager)} does not have an implementation for {nameof(GetCredentialState)} for the current platform.");
+#endif
         }
 
         /// <summary>
