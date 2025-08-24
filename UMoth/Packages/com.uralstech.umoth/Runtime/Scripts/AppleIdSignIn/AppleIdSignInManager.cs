@@ -18,7 +18,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using Uralstech.Utils.Loggers;
 using Uralstech.Utils.Singleton;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 #if UNITY_IOS
