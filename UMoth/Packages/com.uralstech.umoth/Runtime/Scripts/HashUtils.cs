@@ -59,7 +59,7 @@ namespace Uralstech.UMoth
             {
                 int dataLength = data.Length;
                 for (int i = 0; i < dataLength; i++)
-                    data[i].TryFormat(span[(i * 2)..], out _, "X2");
+                    data[i].TryFormat(span[(i * 2)..], out _, "x2");
             });
         }
     }
