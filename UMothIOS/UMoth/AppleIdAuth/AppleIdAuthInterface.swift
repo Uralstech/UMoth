@@ -16,18 +16,18 @@ import AuthenticationServices
 import Security
 
 @_cdecl("umoth_appleid_auth_get_credential_state")
-public func getCredentialState(userId: String, onResult: @convention(c) @escaping (AppleIdCredentialStateWrapper, String) -> Void) {
+public func getCredentialState(userId: UnsafePointer<CChar>, onResult: @convention(c) @escaping (AppleIdCredentialStateWrapper, UnsafePointer<CChar>?) -> Void) {
     logger.log("Getting AppleID credential state.")
     
     let appleIDProvider = ASAuthorizationAppleIDProvider()
-    appleIDProvider.getCredentialState(forUserID: userId) { (state, error) in
+    appleIDProvider.getCredentialState(forUserID: String(cString: userId)) { (state, error) in
         if error != nil {
             logger.error("Failed to get AppleID credential state due to error, state: \(state.rawValue), error message: \(error?.localizedDescription ?? "")")
         } else {
             logger.log("Got AppleID credential state: \(state.rawValue)")
         }
         
-        onResult(AppleIdCredentialStateWrapper(UInt8(state.rawValue)), error?.localizedDescription ?? "")
+        onResult(AppleIdCredentialStateWrapper(UInt8(state.rawValue)), strdupC(error?.localizedDescription))
     }
 }
 
