@@ -19,6 +19,7 @@ using UnityEngine.Events;
 using Uralstech.Utils.Loggers;
 using Uralstech.Utils.Singleton;
 using System.Threading.Tasks;
+using System.Threading;
 
 #if UNITY_IOS
 using Uralstech.UMoth.AppleIdSignIn.Native;
@@ -71,17 +72,17 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// <returns>The managed object or <see langword="null"/> if <paramref name="nativeComponents"/> is <see langword="null"/>.</returns>
         protected static PersonNameComponents? ReadNameComponentsToManagedType(ref NativePersonNameComponents? nativeComponents)
         {
-            if (nativeComponents is null)
+            if (nativeComponents is not NativePersonNameComponents comp)
                 return null;
 
-            NativePersonNameComponents? nativePhoneticRepresentation = nativeComponents?.UnwrapPhoneticRepresentation();
+            NativePersonNameComponents? nativePhoneticRepresentation = comp.UnwrapPhoneticRepresentation();
             PersonNameComponents managedComponents = new(
-                namePrefix: nativeComponents?.NamePrefix,
-                givenName: nativeComponents?.GivenName,
-                middleName: nativeComponents?.MiddleName,
-                familyName: nativeComponents?.FamilyName,
-                nameSuffix: nativeComponents?.NameSuffix,
-                nickname: nativeComponents?.Nickname,
+                namePrefix: MemoryUtils.ReadAnsiString(comp.NamePrefix),
+                givenName: MemoryUtils.ReadAnsiString(comp.GivenName),
+                middleName: MemoryUtils.ReadAnsiString(comp.MiddleName),
+                familyName: MemoryUtils.ReadAnsiString(comp.FamilyName),
+                nameSuffix: MemoryUtils.ReadAnsiString(comp.NameSuffix),
+                nickname: MemoryUtils.ReadAnsiString(comp.Nickname),
                 phoneticRepresentation: ReadNameComponentsToManagedType(ref nativePhoneticRepresentation)
             );
 
@@ -95,12 +96,12 @@ namespace Uralstech.UMoth.AppleIdSignIn
             s_logger.Log("Signed in successfully, wrapping and releasing native data.");
             NativePersonNameComponents? nativeFullName = nativeCredential.UnwrapFullName();
             AppleIdCredential managedCredential = new(
-                userId: nativeCredential.UserId,
-                state: nativeCredential.State,
+                userId: MemoryUtils.ReadAnsiString(nativeCredential.UserId)!,
+                state: MemoryUtils.ReadAnsiString(nativeCredential.State),
                 scopes: (AppleIdScope)nativeCredential.Scopes,
-                authorizationCode: nativeCredential.AuthorizationCode,
-                identityToken: nativeCredential.IdentityToken,
-                email: nativeCredential.Email,
+                authorizationCode: MemoryUtils.ReadAnsiString(nativeCredential.AuthorizationCode),
+                identityToken: MemoryUtils.ReadAnsiString(nativeCredential.IdentityToken),
+                email: MemoryUtils.ReadAnsiString(nativeCredential.Email),
                 fullName: ReadNameComponentsToManagedType(ref nativeFullName),
                 realUserStatus: (AppleIdUserDetectionStatus)nativeCredential.RealUserStatus,
                 userAgeRange: (AppleIdUserAgeRange)nativeCredential.UserAgeRange
@@ -128,17 +129,20 @@ namespace Uralstech.UMoth.AppleIdSignIn
         }
 
         [MonoPInvokeCallback(typeof(NativeCalls.GetCredentialStateCallback))]
-        private static async void GetCredentialStateCallback(byte state, string? errorDescription)
+        private static async void GetCredentialStateCallback(byte state, IntPtr errorDescription)
         {
             AppleIdCredentialState managedState = (AppleIdCredentialState)state;
-            if (string.IsNullOrEmpty(errorDescription))
+            string? managedErrorDescription = MemoryUtils.ReadAnsiString(errorDescription);
+            MemoryUtils.TryReleaseString(errorDescription);
+
+            if (string.IsNullOrEmpty(managedErrorDescription))
                 s_logger.Log($"Got credential state: {managedState}");
             else
-                s_logger.LogError($"Got credential state {managedState} with error: {errorDescription}");
+                s_logger.LogError($"Got credential state {managedState} with error: {managedErrorDescription}");
 
             await Awaitable.MainThreadAsync();
-            Instance._onGotCredentialState?.Invoke(managedState, errorDescription);
-            Instance.OnGotCredentialState.Invoke(managedState, errorDescription);
+            Instance._onGotCredentialState?.Invoke(managedState, managedErrorDescription);
+            Instance.OnGotCredentialState.Invoke(managedState, managedErrorDescription);
         }
 #endif
         #endregion
@@ -155,7 +159,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// </summary>
         /// <param name="userId">An opaque string associated with the Apple ID that your app receives in the credential’s user property after performing a successful authentication request.</param>
         /// <returns>The state and any error that occurred.</returns>
-        public async Awaitable<(AppleIdCredentialState state, string? errorDescription)> GetCredentialStateAsync(string userId)
+        public async Awaitable<(AppleIdCredentialState state, string? errorDescription)> GetCredentialStateAsync(string userId, CancellationToken token = default)
         {
             TaskCompletionSource<(AppleIdCredentialState, string?)> tcs = new();
             void OnResult(AppleIdCredentialState state, string? errorDescription) => tcs.SetResult((state, errorDescription));
@@ -163,11 +167,16 @@ namespace Uralstech.UMoth.AppleIdSignIn
             await Awaitable.MainThreadAsync();
             _onGotCredentialState += OnResult;
 
-            GetCredentialState(userId);
-            await tcs.Task;
-
-            _onGotCredentialState -= OnResult;
-            return tcs.Task.Result;
+            try
+            {
+                GetCredentialState(userId);
+                using (token.Register(() => tcs.TrySetCanceled(token)))
+                    return await tcs.Task;
+            }
+            finally
+            {
+                _onGotCredentialState -= OnResult;
+            }
         }
 
         /// <summary>
@@ -191,7 +200,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// <param name="nonce">A string value to pass to the identity provider.</param>
         /// <param name="state">Data that's returned to you unmodified in the corresponding credential after a successful authentication.</param>
         /// <returns>The AppleID credential or the failure reason.</returns>
-        public async Awaitable<(AppleIdCredential?, AppleIdSignInErrorCode)> SignInAsync(AppleIdScope requestedScopes, string? nonce = null, string? state = null)
+        public async Awaitable<(AppleIdCredential?, AppleIdSignInErrorCode)> SignInAsync(AppleIdScope requestedScopes, string? nonce = null, string? state = null, CancellationToken token = default)
         {
             TaskCompletionSource<(AppleIdCredential?, AppleIdSignInErrorCode)> tcs = new();
             void OnSuccess(AppleIdCredential token) => tcs.SetResult((token, default));
@@ -201,12 +210,17 @@ namespace Uralstech.UMoth.AppleIdSignIn
             _onSignedIn += OnSuccess;
             _onSignInFailed += OnFailure;
 
-            SignIn(requestedScopes, nonce, state);
-            await tcs.Task;
-
-            _onSignedIn -= OnSuccess;
-            _onSignInFailed -= OnFailure;
-            return tcs.Task.Result;
+            try
+            {
+                SignIn(requestedScopes, nonce, state);
+                using (token.Register(() => tcs.TrySetCanceled(token)))
+                    return await tcs.Task;
+            }
+            finally
+            {
+                _onSignedIn -= OnSuccess;
+                _onSignInFailed -= OnFailure;
+            }
         }
 
         /// <summary>

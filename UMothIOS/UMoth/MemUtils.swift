@@ -36,3 +36,8 @@ internal func decodeUtf8Data(from data: Data?) -> UnsafePointer<CChar>? {
 public func freeNativeBuffer(ptr: UnsafeMutableRawPointer) {
     ptr.deallocate()
 }
+
+@_cdecl("umoth_free_native_string")
+public func freeNativeString(ptr: UnsafeMutableRawPointer) {
+    free(ptr)
+}

@@ -24,18 +24,25 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
     public static class NativeCalls
     {
         /// <summary>
-        /// Frees up a buffer allocated from native code using Swift's UnsafeMutablePointer.allocate.
+        /// Frees up a buffer allocated from native code using Swift's UnsafeMutablePointer.allocate().
         /// </summary>
         /// <param name="ptr">The buffer to deallocate.</param>
         [DllImport("__Internal")]
         public static extern void umoth_free_native_buffer(IntPtr ptr);
 
         /// <summary>
+        /// Frees up a string allocated from native code using strdup().
+        /// </summary>
+        /// <param name="ptr">The string to deallocate.</param>
+        [DllImport("__Internal")]
+        public static extern void umoth_free_native_string(IntPtr ptr);
+
+        /// <summary>
         /// Callback delegate for when ASAuthorizationAppleIDProvider.getCredentialState() completes executing.
         /// </summary>
         /// <param name="state">The state of the credential.</param>
         /// <param name="errorDescription">Any error which occurred while trying to get the state.</param>
-        public delegate void GetCredentialStateCallback(byte state, string? errorDescription);
+        public delegate void GetCredentialStateCallback(byte state, IntPtr errorDescription);
 
         /// <summary>
         /// Returns the credential state for the given user in a completion handler.
