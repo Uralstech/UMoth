@@ -27,12 +27,12 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// <summary>
         /// An opaque user ID associated with the AppleID used for the sign in. This identifier will be stable across the 'developer team'.
         /// </summary>
-        public string UserId;
+        public IntPtr UserId;
 
         /// <summary>
         /// Data that's returned to you unmodified in the corresponding credential after a successful authentication.
         /// </summary>
-        public string? State;
+        public IntPtr State;
 
         /// <summary>
         /// This value will contain a list of scopes for which the user provided authorization. 
@@ -49,18 +49,18 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// The authorization code is bound to the specific transaction using the state attribute passed in the authorization request.
         /// The server component of the app can validate the code using Apple's identity service endpoint provided for this purpose.
         /// </summary>
-        public string? AuthorizationCode;
+        public IntPtr AuthorizationCode;
 
         /// <summary>
         /// A JSON Web Token (JWT) used to communicate information about the identity of the user in a secure way to the app.
         /// The ID token will contain the following information: Issuer Identifier, Subject Identifier, Audience, Expiry Time and Issuance Time signed by Apple's identity service.
         /// </summary>
-        public string? IdentityToken;
+        public IntPtr IdentityToken;
 
         /// <summary>
         /// An optional email shared by the user. This field is populated with a value that the user authorized.
         /// </summary>
-        public string? Email;
+        public IntPtr Email;
 
         /// <summary>
         /// An optional full name shared by the user. This field is populated with a value that the user authorized.
@@ -117,6 +117,21 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
                 // If at this point FullName has not been accessed, manually deallocate it.
                 components.Dispose();
             }
+
+            MemoryUtils.TryReleaseString(UserId);
+            UserId = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(State);
+            State = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(AuthorizationCode);
+            AuthorizationCode = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(IdentityToken);
+            IdentityToken = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(Email);
+            Email = IntPtr.Zero;
         }
     }
 }

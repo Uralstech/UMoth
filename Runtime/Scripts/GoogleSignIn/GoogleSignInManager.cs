@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Android;
@@ -115,7 +116,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// <param name="filterByAuthorizedAccount">Whether to only allow the user to select from Google accounts that are already authorized to sign in to your application.</param>
         /// <param name="autoSelectSignIn">The auto-select behavior in the request.</param>
         /// <returns>The ID token credential or the failure reason.</returns>
-        public async Awaitable<(GoogleIdTokenCredential?, GoogleSignInErrorCode)> SignInAsync(string? nonce = null, bool filterByAuthorizedAccount = true, bool autoSelectSignIn = true)
+        public async Awaitable<(GoogleIdTokenCredential?, GoogleSignInErrorCode)> SignInAsync(string? nonce = null, bool filterByAuthorizedAccount = true, bool autoSelectSignIn = true, CancellationToken token = default)
         {
             TaskCompletionSource<(GoogleIdTokenCredential?, GoogleSignInErrorCode)> tcs = new();
             void OnSuccess(GoogleIdTokenCredential token) => tcs.SetResult((token, default));
@@ -125,12 +126,17 @@ namespace Uralstech.UMoth.GoogleSignIn
             _onSignedIn += OnSuccess;
             _onSignInFailed += OnFailure;
 
-            SignIn(nonce, filterByAuthorizedAccount, autoSelectSignIn);
-            await tcs.Task;
-
-            _onSignedIn -= OnSuccess;
-            _onSignInFailed -= OnFailure;
-            return tcs.Task.Result;
+            try
+            {
+                SignIn(nonce, filterByAuthorizedAccount, autoSelectSignIn);
+                using (token.Register(() => tcs.TrySetCanceled(token)))
+                    return await tcs.Task;
+            }
+            finally
+            {
+                _onSignedIn -= OnSuccess;
+                _onSignInFailed -= OnFailure;
+            }
         }
 
         /// <summary>
@@ -153,7 +159,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// Starts the sign-out flow.
         /// </summary>
         /// <returns>If the operation was successful.</returns>
-        public async Awaitable<bool> SignOutAsync()
+        public async Awaitable<bool> SignOutAsync(CancellationToken token = default)
         {
             TaskCompletionSource<bool> tcs = new();
             void OnSuccess() => tcs.SetResult(true);
@@ -163,12 +169,17 @@ namespace Uralstech.UMoth.GoogleSignIn
             _onSignedOut += OnSuccess;
             _onSignOutFailed += OnFailure;
 
-            SignOut();
-            await tcs.Task;
-
-            _onSignedOut -= OnSuccess;
-            _onSignOutFailed -= OnFailure;
-            return tcs.Task.Result;
+            try
+            {
+                SignOut();
+                using (token.Register(() => tcs.TrySetCanceled(token)))
+                    return await tcs.Task;
+            }
+            finally
+            {
+                _onSignedOut -= OnSuccess;
+                _onSignOutFailed -= OnFailure;
+            }
         }
 
         /// <summary>

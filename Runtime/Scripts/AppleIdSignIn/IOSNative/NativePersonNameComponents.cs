@@ -27,32 +27,32 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// <summary>
         /// Prefix to the user's name, or its phonetic representation if this struct is created from <see cref="PhoneticRepresentation"/>.
         /// </summary>
-        public string? NamePrefix;
+        public IntPtr NamePrefix;
 
         /// <summary>
         /// The user's given name, or its phonetic representation if this struct is created from <see cref="PhoneticRepresentation"/>.
         /// </summary>
-        public string? GivenName;
+        public IntPtr GivenName;
 
         /// <summary>
         /// The user's middle name, or its phonetic representation if this struct is created from <see cref="PhoneticRepresentation"/>.
         /// </summary>
-        public string? MiddleName;
+        public IntPtr MiddleName;
 
         /// <summary>
         /// The user's family name, or its phonetic representation if this struct is created from <see cref="PhoneticRepresentation"/>.
         /// </summary>
-        public string? FamilyName;
+        public IntPtr FamilyName;
 
         /// <summary>
         /// Suffix to the user's name, or its phonetic representation if this struct is created from <see cref="PhoneticRepresentation"/>.
         /// </summary>
-        public string? NameSuffix;
+        public IntPtr NameSuffix;
 
         /// <summary>
         /// The user's nickname, or its phonetic representation if this struct is created from <see cref="PhoneticRepresentation"/>.
         /// </summary>
-        public string? Nickname;
+        public IntPtr Nickname;
 
         /// <summary>
         /// Phonetic representation of this struct's values.
@@ -97,6 +97,24 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
                 // If at this point PhoneticRepresentation has not been accessed, manually deallocate it.
                 components.Dispose();
             }
+
+            MemoryUtils.TryReleaseString(NamePrefix);
+            NamePrefix = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(GivenName);
+            GivenName = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(MiddleName);
+            MiddleName = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(FamilyName);
+            FamilyName = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(NameSuffix);
+            NameSuffix = IntPtr.Zero;
+
+            MemoryUtils.TryReleaseString(Nickname);
+            Nickname = IntPtr.Zero;
         }
     }
 }
