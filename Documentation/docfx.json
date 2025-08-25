@@ -10,7 +10,7 @@
         }
       ],
       "properties": {
-        "DefineConstants": "UNITY_ANDROID"
+        "DefineConstants": "UNITY_ANDROID;UNITY_IOS"
       },
       "dest": "api",
       "filter": "filterConfig.yml",

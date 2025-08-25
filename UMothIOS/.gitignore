@@ -1,0 +1,34 @@
+# Xcode project user data
+*.xcuserstate
+*.xcuserdatad
+*.xcscmblueprint
+*.xccheckout
+
+# Build products
+build/
+DerivedData/
+*.o
+*.obj
+*.swp
+*.swm
+*.swo
+
+# Index and logs
+*.xcindex
+*.xcactivitylog
+
+# Swift Package Manager
+.build/
+Packages/
+
+# CocoaPods (if used)
+Pods/
+
+# Carthage (if used)
+Carthage/Build/
+
+# Fastlane (if used)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output

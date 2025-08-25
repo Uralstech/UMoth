@@ -44,16 +44,16 @@ namespace Uralstech.UMoth.GoogleSignIn
         [field: SerializeField] public string ServerClientId { protected get; set; } = string.Empty;
 
         /// <summary>
-        /// Called when the sign-in flow succeeds, with the The Google ID Token credential.
+        /// Called when the sign-in flow succeeds, with the Google ID Token credential.
         /// </summary>
-        [Tooltip("Called when the sign-in flow succeeds, with the The Google ID Token credential.")]
+        [Tooltip("Called when the sign-in flow succeeds, with the Google ID Token credential.")]
         public UnityEvent<GoogleIdTokenCredential> OnSignedIn = new();
 
         /// <summary>
         /// Called when the sign-in flow fails, with the failure reason.
         /// </summary>
         [Tooltip("Called when the sign-in flow fails, with the failure reason.")]
-        public UnityEvent<SignInFailReason> OnSignInFailed = new();
+        public UnityEvent<GoogleSignInErrorCode> OnSignInFailed = new();
 
         /// <summary>
         /// Called when the sign-out flow succeeds.
@@ -78,6 +78,11 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// </summary>
         protected AndroidJavaObject? _pluginInstance;
 #endif
+
+        private Action<GoogleIdTokenCredential>? _onSignedIn;
+        private Action<GoogleSignInErrorCode>? _onSignInFailed;
+        private Action? _onSignedOut;
+        private Action? _onSignOutFailed;
 
         /// <inheritdoc/>
         protected override void Awake()
@@ -110,21 +115,21 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// <param name="filterByAuthorizedAccount">Whether to only allow the user to select from Google accounts that are already authorized to sign in to your application.</param>
         /// <param name="autoSelectSignIn">The auto-select behavior in the request.</param>
         /// <returns>The ID token credential or the failure reason.</returns>
-        public async Awaitable<(GoogleIdTokenCredential?, SignInFailReason)> SignInAsync(string? nonce = null, bool filterByAuthorizedAccount = true, bool autoSelectSignIn = true)
+        public async Awaitable<(GoogleIdTokenCredential?, GoogleSignInErrorCode)> SignInAsync(string? nonce = null, bool filterByAuthorizedAccount = true, bool autoSelectSignIn = true)
         {
-            TaskCompletionSource<(GoogleIdTokenCredential?, SignInFailReason)> tcs = new();
+            TaskCompletionSource<(GoogleIdTokenCredential?, GoogleSignInErrorCode)> tcs = new();
             void OnSuccess(GoogleIdTokenCredential token) => tcs.SetResult((token, default));
-            void OnFailure(SignInFailReason failReason) => tcs.SetResult((null, failReason));
+            void OnFailure(GoogleSignInErrorCode failReason) => tcs.SetResult((null, failReason));
 
             await Awaitable.MainThreadAsync();
-            OnSignedIn.AddListener(OnSuccess);
-            OnSignInFailed.AddListener(OnFailure);
+            _onSignedIn += OnSuccess;
+            _onSignInFailed += OnFailure;
 
             SignIn(nonce, filterByAuthorizedAccount, autoSelectSignIn);
             await tcs.Task;
 
-            OnSignedIn.RemoveListener(OnSuccess);
-            OnSignInFailed.RemoveListener(OnFailure);
+            _onSignedIn -= OnSuccess;
+            _onSignInFailed -= OnFailure;
             return tcs.Task.Result;
         }
 
@@ -155,14 +160,14 @@ namespace Uralstech.UMoth.GoogleSignIn
             void OnFailure() => tcs.SetResult(false);
 
             await Awaitable.MainThreadAsync();
-            OnSignedOut.AddListener(OnSuccess);
-            OnSignOutFailed.AddListener(OnFailure);
+            _onSignedOut += OnSuccess;
+            _onSignOutFailed += OnFailure;
 
             SignOut();
             await tcs.Task;
 
-            OnSignedOut.RemoveListener(OnSuccess);
-            OnSignOutFailed.RemoveListener(OnFailure);
+            _onSignedOut -= OnSuccess;
+            _onSignOutFailed -= OnFailure;
             return tcs.Task.Result;
         }
 
@@ -184,13 +189,15 @@ namespace Uralstech.UMoth.GoogleSignIn
         void IGoogleAuthCallbackReceiver.OnSignedIn(GoogleIdTokenCredential credential)
         {
             s_logger.Log("Signed in with Google account.");
+            _onSignedIn?.Invoke(credential);
             OnSignedIn.Invoke(credential);
         }
 
         /// <inheritdoc/>
-        void IGoogleAuthCallbackReceiver.OnSignInFailed(SignInFailReason reason)
+        void IGoogleAuthCallbackReceiver.OnSignInFailed(GoogleSignInErrorCode reason)
         {
             s_logger.Log("Could not sign in with Google account, failure reason: {0}", reason);
+            _onSignInFailed?.Invoke(reason);
             OnSignInFailed.Invoke(reason);
         }
 
@@ -198,6 +205,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         void IGoogleAuthCallbackReceiver.OnSignedOut()
         {
             s_logger.Log("Signed out of Google account.");
+            _onSignedOut?.Invoke();
             OnSignedOut.Invoke();
         }
 
@@ -205,6 +213,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         void IGoogleAuthCallbackReceiver.OnSignOutFailed()
         {
             s_logger.Log("Could not sign out of Google account.");
+            _onSignOutFailed?.Invoke();
             OnSignOutFailed.Invoke();
         }
         #endregion

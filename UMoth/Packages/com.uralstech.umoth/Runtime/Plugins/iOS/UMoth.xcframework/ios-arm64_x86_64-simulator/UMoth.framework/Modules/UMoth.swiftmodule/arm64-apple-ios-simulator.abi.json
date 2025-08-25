@@ -1,0 +1,314 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "UMoth",
+    "printedName": "UMoth",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "AuthenticationServices",
+        "printedName": "AuthenticationServices",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "AuthenticationServices",
+        "printedName": "AuthenticationServices",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Security",
+        "printedName": "Security",
+        "declKind": "Import",
+        "moduleName": "UMoth"
+      },
+      {
+        "kind": "Function",
+        "name": "getCredentialState",
+        "printedName": "getCredentialState(userId:onResult:)",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Void",
+            "printedName": "()"
+          },
+          {
+            "kind": "TypeNominal",
+            "name": "UnsafePointer",
+            "printedName": "Swift.UnsafePointer<Swift.Int8>",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int8",
+                "printedName": "Swift.Int8",
+                "usr": "s:s4Int8V"
+              }
+            ],
+            "usr": "s:SP"
+          },
+          {
+            "kind": "TypeFunc",
+            "name": "Function",
+            "printedName": "(UMoth.AppleIdCredentialStateWrapper, Swift.UnsafePointer<Swift.Int8>?) -> ()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Tuple",
+                "printedName": "(UMoth.AppleIdCredentialStateWrapper, Swift.UnsafePointer<Swift.Int8>?)",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "AppleIdCredentialStateWrapper",
+                    "printedName": "UMoth.AppleIdCredentialStateWrapper",
+                    "usr": "c:@EA@AppleIdCredentialStateWrapper"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "Swift.UnsafePointer<Swift.Int8>?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UnsafePointer",
+                        "printedName": "Swift.UnsafePointer<Swift.Int8>",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Int8",
+                            "printedName": "Swift.Int8",
+                            "usr": "s:s4Int8V"
+                          }
+                        ],
+                        "usr": "s:SP"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)getCredentialStateWithUserId:onResult:",
+        "mangledName": "$s5UMoth18getCredentialState6userId8onResultySPys4Int8VG_ySo05ApplefcD7Wrappera_AGSgtXCtF",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "startSignIn",
+        "printedName": "startSignIn(requestScopes:nonce:state:onSignedInCallback:onSignInFailedCallback:)",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Bool",
+            "printedName": "Swift.Bool",
+            "usr": "s:Sb"
+          },
+          {
+            "kind": "TypeNominal",
+            "name": "AppleIdScopeWrapper",
+            "printedName": "UMoth.AppleIdScopeWrapper",
+            "usr": "c:@EA@AppleIdScopeWrapper"
+          },
+          {
+            "kind": "TypeNominal",
+            "name": "Optional",
+            "printedName": "Swift.UnsafePointer<Swift.Int8>?",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UnsafePointer",
+                "printedName": "Swift.UnsafePointer<Swift.Int8>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int8",
+                    "printedName": "Swift.Int8",
+                    "usr": "s:s4Int8V"
+                  }
+                ],
+                "usr": "s:SP"
+              }
+            ],
+            "usr": "s:Sq"
+          },
+          {
+            "kind": "TypeNominal",
+            "name": "Optional",
+            "printedName": "Swift.UnsafePointer<Swift.Int8>?",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UnsafePointer",
+                "printedName": "Swift.UnsafePointer<Swift.Int8>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int8",
+                    "printedName": "Swift.Int8",
+                    "usr": "s:s4Int8V"
+                  }
+                ],
+                "usr": "s:SP"
+              }
+            ],
+            "usr": "s:Sq"
+          },
+          {
+            "kind": "TypeFunc",
+            "name": "Function",
+            "printedName": "(UMoth.AppleIdCredentialWrapper) -> ()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "AppleIdCredentialWrapper",
+                "printedName": "UMoth.AppleIdCredentialWrapper",
+                "usr": "c:@SA@AppleIdCredentialWrapper"
+              }
+            ]
+          },
+          {
+            "kind": "TypeFunc",
+            "name": "Function",
+            "printedName": "(UMoth.AppleIdAuthorizationErrorCode) -> ()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "AppleIdAuthorizationErrorCode",
+                "printedName": "UMoth.AppleIdAuthorizationErrorCode",
+                "usr": "c:@EA@AppleIdAuthorizationErrorCode"
+              }
+            ]
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)startSignInRequestScopes:nonce:state:onSignedInCallback:onSignInFailedCallback:",
+        "mangledName": "$s5UMoth11startSignIn13requestScopes5nonce5state08onSignedD8Callback0icd6FailedK0SbSo19AppleIdScopeWrappera_SPys4Int8VGSgAMySo0mn10CredentialP0aXCySo0mN22AuthorizationErrorCodeaXCtF",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Import",
+        "name": "AuthenticationServices",
+        "printedName": "AuthenticationServices",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "UMoth"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Function",
+        "name": "freeNativeBuffer",
+        "printedName": "freeNativeBuffer(ptr:)",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Void",
+            "printedName": "()"
+          },
+          {
+            "kind": "TypeNominal",
+            "name": "UnsafeMutableRawPointer",
+            "printedName": "Swift.UnsafeMutableRawPointer",
+            "usr": "s:Sv"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)freeNativeBufferWithPtr:",
+        "mangledName": "$s5UMoth16freeNativeBuffer3ptrySv_tF",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "os.log",
+        "printedName": "os.log",
+        "declKind": "Import",
+        "moduleName": "UMoth"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "UMoth"
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/uralstech\/Desktop\/Unity Projects\/UMoth\/UMothIOS\/UMoth\/UMoth.swift",
+      "kind": "StringLiteral",
+      "offset": 694,
+      "length": 14,
+      "value": "\"UMoth_Native\""
+    }
+  ]
+}

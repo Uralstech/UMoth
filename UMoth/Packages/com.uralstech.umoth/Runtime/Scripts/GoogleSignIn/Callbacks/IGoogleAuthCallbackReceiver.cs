@@ -30,7 +30,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// Called when the sign-in flow fails.
         /// </summary>
         /// <param name="reason">The reason for failure.</param>
-        public void OnSignInFailed(SignInFailReason reason);
+        public void OnSignInFailed(GoogleSignInErrorCode reason);
 
         /// <summary>
         /// Called when the sign-out flow succeeds.

@@ -4,11 +4,10 @@ Please note that the code provided in this page is *purely* for learning purpose
 
 ## Breaking Changes Notice
 
-This package currently only supports Google Sign In for Android. Apple Sign In for iOS is expected "soon", and Google Sign In for iOS is being considered.
-Updates which add support for the aforementioned providers may introduce breaking changes. If you've just updated the package, it is recommended to check
+This package supports Google Sign In for Android 6.0+ (API level 23) and Sign in With Apple for iOS 14.0+. If you've just updated the package, it is recommended to check
 the [*changelogs*](https://github.com/Uralstech/UMoth/releases) for information on breaking changes.
 
-## Google Sign-In Setup (Android)
+## Integrate Google Sign-In (Android)
 
 Setup your app for Google Sign-In by following these steps (taken from [google-signin-unity](https://github.com/googlesamples/google-signin-unity/)):
  
@@ -76,7 +75,7 @@ using Uralstech.UMoth.GoogleSignIn;
 
 public async void SignIn()
 {
-    (GoogleIdTokenCredential credential, SignInFailReason failReason) = await GoogleSignInManager.Instance.SignInAsync();
+    (GoogleIdTokenCredential credential, GoogleSignInErrorCode failReason) = await GoogleSignInManager.Instance.SignInAsync();
     if (credential == null)
     {
         Debug.LogError($"Failed to get credentials due to error: {failReason}");
@@ -107,13 +106,15 @@ public async void SignOut()
 }
 ```
 
-## Firebase Integration
+### Firebase Integration
 
 You can use the [`IdToken`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleIdTokenCredential.yml#Uralstech_UMoth_GoogleSignIn_GoogleIdTokenCredential_IdToken)
 from signing in to create a Firebase Auth credential, like so:
 
 ```csharp
-(GoogleIdTokenCredential? result, SignInFailReason failReason) = await GoogleSignInManager.Instance.SignInAsync();
+using Uralstech.UMoth.GoogleSignIn;
+
+(GoogleIdTokenCredential? result, GoogleSignInErrorCode failReason) = await GoogleSignInManager.Instance.SignInAsync();
 if (result is null)
 {
     Debug.LogError($"Could not sign in due to error: {failReason}");
@@ -121,6 +122,96 @@ if (result is null)
 }
 
 Credential fbCredential = GoogleAuthProvider.GetCredential(result.IdToken, null);
+
+try
+{
+    AuthResult authResult = await FirebaseAuth.DefaultInstance.SignInAndRetrieveDataWithCredentialAsync(fbCredential).ConfigureAwait(true);
+    Debug.Log("User logged in successfully.");
+}
+catch (FirebaseException exception)
+{
+    Debug.LogException(exception);
+}
+```
+
+## Integrate Sign In with Apple (iOS)
+
+This plugin doesn't require any additional setup for Sign In with Apple on iOS, but make sure you've
+[set up everything on the Apple developer portal](https://developer.apple.com/help/account/capabilities/about-sign-in-with-apple/) to enable the capability.
+
+### Scene Setup
+
+Add an instance of [`AppleIdSignInManager`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml) to your first scene (as it is a persistent singleton).
+
+### Sign In
+
+To sign in at runtime, just call [`SignIn()`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_SignIn_Uralstech_UMoth_AppleIdSignIn_AppleIdScope_System_String_System_String_)
+and register to its callbacks ([`OnSignedIn`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_OnSignedIn) and [`OnSignInFailed`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_OnSignInFailed))
+or call [`SignInAsync()`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_SignInAsync_Uralstech_UMoth_AppleIdSignIn_AppleIdScope_System_String_System_String_) to get the results asynchronously.
+You can also specify what user data you want from their AppleID:
+
+```csharp
+using Uralstech.UMoth.AppleIdSignIn;
+
+public async void SignIn()
+{
+    // If you only wanted the email, just pass in AppleIdScope.Email. You can also pass in AppleIdScope.None if you want neither.
+    (AppleIdCredential credential, AppleIdSignInErrorCode failReason) = await AppleIdSignInManager.Instance.SignInAsync(AppleIdScope.FullName | AppleIdScope.Email);
+    if (credential == null)
+    {
+        Debug.LogError($"Failed to get credentials due to error: {failReason}");
+        return;
+    }
+
+    Debug.Log($"Got credentials: {credential}");
+}
+```
+
+Both `SignIn()` and `SignInAsync()` contain optional parameters to configure the operation. Please check the reference documentation for more info.
+
+### Sign Out
+
+Apple doesn't provide an API to programmatically sign the user out.
+
+### Check AppleID Credential State
+
+You can check if the user has revoked authorization to their AppleID for the app using [`GetCredentialState`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_GetCredentialState_System_String_) and registering to its callback [`OnGotCredentialState`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_OnGotCredentialState) or by calling [`GetCredentialStateAsync`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_GetCredentialStateAsync_System_String_) to get the results asynchronously.
+You will have to provide the user ID provided by Apple when you signed the user in. This example gets it from the current logged in Firebase Auth user:
+
+```csharp
+using Uralstech.UMoth.AppleIdSignIn;
+
+FirebaseUser user = FirebaseAuth.DefaultInstance.CurrentUser;
+IUserInfo? appleIdData = user.ProviderData.FirstOrDefault(data => data.ProviderId == "apple.com");
+
+if (appleIdData != null)
+{
+    (AppleIdCredentialState state, string? errorDescription) = await AppleIdSignInManager.Instance.GetCredentialStateAsync(appleIdData.UserId);
+    Debug.Log($"Got credential state for current user, state: {state}, error: {errorDescription}");
+}
+```
+
+### Firebase Integration
+
+You can use the [`IdentityToken`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdCredential.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdCredential_IdentityToken) and [`AuthorizationCode`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdCredential.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdCredential_AuthorizationCode) from signing in
+to create a Firebase credential. This example also creates a cryptographically secure nonce generated using [`HashUtils`](~/api/Uralstech.UMoth.HashUtils.yml):
+
+```csharp
+using Uralstech.UMoth;
+using Uralstech.UMoth.AppleIdSignIn;
+
+string rawNonce = HashUtils.RandomNonceString();
+string nonceHash = HashUtils.Sha256Hash(rawNonce);
+
+(AppleIdCredential? result, AppleIdSignInErrorCode failReason) = await AppleIdSignInManager.Instance.SignInAsync(AppleIdScope.FullName | AppleIdScope.Email, nonceHash);
+if (result is null)
+{
+    Debug.LogError($"Could not sign in due to error: {failReason}");
+    return;
+}
+
+// The nonce here is completely optional, use null if you don't want to use it.
+Credential fbCredential = OAuthProvider.GetCredential("apple.com", result.IdentityToken, rawNonce, result.AuthorizationCode);
 
 try
 {

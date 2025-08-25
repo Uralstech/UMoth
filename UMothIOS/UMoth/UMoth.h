@@ -12,27 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#nullable enable
-namespace Uralstech.UMoth.GoogleSignIn
-{
-    /// <summary>
-    /// Reason for Sign-In failures.
-    /// </summary>
-    public enum SignInFailReason
-    {
-        /// <summary>
-        /// Generic error from the native credential request.
-        /// </summary>
-        GenericError = 0,
+#ifndef UMoth_h
+#define UMoth_h
 
-        /// <summary>
-        /// The returned credential was not recognized.
-        /// </summary>
-        UnknownCredentialType = 1,
+#include <UMoth/AppleIdAuthWrappers.h>
 
-        /// <summary>
-        /// The Google ID token was not valid.
-        /// </summary>
-        InvalidGoogleIdResponse = 2,
-    }
-}
+#endif /* UMoth_h */
