@@ -35,7 +35,7 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// </summary>
         /// <param name="state">The state of the credential.</param>
         /// <param name="errorDescription">Any error which occurred while trying to get the state.</param>
-        public delegate void GetCredentialStateCallback(byte state, string errorDescription);
+        public delegate void GetCredentialStateCallback(byte state, string? errorDescription);
 
         /// <summary>
         /// Returns the credential state for the given user in a completion handler.
