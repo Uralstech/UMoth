@@ -67,8 +67,8 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// </summary>
         /// <remarks>
         /// This is an instance of <see cref="NativePersonNameComponents"/>.
-        /// If it has not been unwrapped, it will be freed when this struct's <see cref="Dispose()"/> is called.
-        /// If unwrapped using <see cref="UnwrapFullName()"/>, the caller is responsible for disposing the returned object.
+        /// If it has not been unwrapped, it will be freed when this struct's <see cref="Dispose"/> is called.
+        /// If unwrapped using <see cref="UnwrapFullName"/>, the caller is responsible for disposing the returned object.
         /// </remarks>
         public IntPtr FullName;
 
