@@ -72,8 +72,9 @@ namespace Uralstech.UMoth.AppleIdSignIn.Native
         /// <param name="state">An optional state for the request which will be returned in the resulting ASAuthorizationAppleIDCredential.</param>
         /// <param name="onSignedInCallback">Success callback.</param>
         /// <param name="onSignInFailedCallback">Failure callback.</param>
+        /// <returns>If the request was executed successfully.</returns>
         [DllImport("__Internal")]
-        public static extern void umoth_appleid_auth_start_sign_in(
+        public static extern bool umoth_appleid_auth_start_sign_in(
             byte requestScopes,
             string? nonce,
             string? state,

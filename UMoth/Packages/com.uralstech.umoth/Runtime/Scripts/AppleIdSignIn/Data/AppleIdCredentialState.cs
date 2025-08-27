@@ -38,6 +38,14 @@ namespace Uralstech.UMoth.AppleIdSignIn
         /// <summary>
         /// The app has been transferred to a different team, and you need to migrate the user’s identifier.
         /// </summary>
-        Transferred
+        Transferred,
+
+        /// <summary>
+        /// An error was raised by the native plugin.
+        /// </summary>
+        /// <remarks>
+        /// This is not a part of AppleIdCredentialState.
+        /// </remarks>
+        PluginError = 255,
     }
 }

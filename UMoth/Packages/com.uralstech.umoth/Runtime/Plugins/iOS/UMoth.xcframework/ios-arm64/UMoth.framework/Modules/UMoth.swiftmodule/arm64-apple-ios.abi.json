@@ -16,111 +16,6 @@
       },
       {
         "kind": "Import",
-        "name": "UIKit",
-        "printedName": "UIKit",
-        "declKind": "Import",
-        "moduleName": "UMoth"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "UMoth",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Function",
-        "name": "freeNativeBuffer",
-        "printedName": "freeNativeBuffer(ptr:)",
-        "children": [
-          {
-            "kind": "TypeNominal",
-            "name": "Void",
-            "printedName": "()"
-          },
-          {
-            "kind": "TypeNominal",
-            "name": "UnsafeMutableRawPointer",
-            "printedName": "Swift.UnsafeMutableRawPointer",
-            "usr": "s:Sv"
-          }
-        ],
-        "declKind": "Func",
-        "usr": "c:(cm)freeNativeBufferWithPtr:",
-        "mangledName": "$s5UMoth16freeNativeBuffer3ptrySv_tF",
-        "moduleName": "UMoth",
-        "declAttributes": [
-          "AccessControl",
-          "CDecl"
-        ],
-        "funcSelfKind": "NonMutating"
-      },
-      {
-        "kind": "Function",
-        "name": "freeNativeString",
-        "printedName": "freeNativeString(ptr:)",
-        "children": [
-          {
-            "kind": "TypeNominal",
-            "name": "Void",
-            "printedName": "()"
-          },
-          {
-            "kind": "TypeNominal",
-            "name": "UnsafeMutableRawPointer",
-            "printedName": "Swift.UnsafeMutableRawPointer",
-            "usr": "s:Sv"
-          }
-        ],
-        "declKind": "Func",
-        "usr": "c:(cm)freeNativeStringWithPtr:",
-        "mangledName": "$s5UMoth16freeNativeString3ptrySv_tF",
-        "moduleName": "UMoth",
-        "declAttributes": [
-          "AccessControl",
-          "CDecl"
-        ],
-        "funcSelfKind": "NonMutating"
-      },
-      {
-        "kind": "Import",
-        "name": "Foundation",
-        "printedName": "Foundation",
-        "declKind": "Import",
-        "moduleName": "UMoth",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
-        "name": "os.log",
-        "printedName": "os.log",
-        "declKind": "Import",
-        "moduleName": "UMoth"
-      },
-      {
-        "kind": "Import",
-        "name": "UIKit",
-        "printedName": "UIKit",
-        "declKind": "Import",
-        "moduleName": "UMoth"
-      },
-      {
-        "kind": "Import",
-        "name": "AuthenticationServices",
-        "printedName": "AuthenticationServices",
-        "declKind": "Import",
-        "moduleName": "UMoth",
-        "declAttributes": [
-          "RawDocComment"
-        ]
-      },
-      {
-        "kind": "Import",
         "name": "AuthenticationServices",
         "printedName": "AuthenticationServices",
         "declKind": "Import",
@@ -148,17 +43,25 @@
           },
           {
             "kind": "TypeNominal",
-            "name": "UnsafePointer",
-            "printedName": "Swift.UnsafePointer<Swift.Int8>",
+            "name": "Optional",
+            "printedName": "Swift.UnsafePointer<Swift.Int8>?",
             "children": [
               {
                 "kind": "TypeNominal",
-                "name": "Int8",
-                "printedName": "Swift.Int8",
-                "usr": "s:s4Int8V"
+                "name": "UnsafePointer",
+                "printedName": "Swift.UnsafePointer<Swift.Int8>",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int8",
+                    "printedName": "Swift.Int8",
+                    "usr": "s:s4Int8V"
+                  }
+                ],
+                "usr": "s:SP"
               }
             ],
-            "usr": "s:SP"
+            "usr": "s:Sq"
           },
           {
             "kind": "TypeFunc",
@@ -210,7 +113,7 @@
         ],
         "declKind": "Func",
         "usr": "c:(cm)getCredentialStateWithUserId:onResult:",
-        "mangledName": "$s5UMoth18getCredentialState6userId8onResultySPys4Int8VG_ySo05ApplefcD7Wrappera_AGSgtXCtF",
+        "mangledName": "$s5UMoth18getCredentialState6userId8onResultySPys4Int8VGSg_ySo05ApplefcD7Wrappera_AHtXCtF",
         "moduleName": "UMoth",
         "declAttributes": [
           "AccessControl",
@@ -325,6 +228,127 @@
           "CDecl"
         ],
         "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Import",
+        "name": "AuthenticationServices",
+        "printedName": "AuthenticationServices",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "UMoth"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Function",
+        "name": "freeNativeBuffer",
+        "printedName": "freeNativeBuffer(ptr:)",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Void",
+            "printedName": "()"
+          },
+          {
+            "kind": "TypeNominal",
+            "name": "Optional",
+            "printedName": "Swift.UnsafeMutableRawPointer?",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UnsafeMutableRawPointer",
+                "printedName": "Swift.UnsafeMutableRawPointer",
+                "usr": "s:Sv"
+              }
+            ],
+            "usr": "s:Sq"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)freeNativeBufferWithPtr:",
+        "mangledName": "$s5UMoth16freeNativeBuffer3ptrySvSg_tF",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Function",
+        "name": "freeNativeString",
+        "printedName": "freeNativeString(ptr:)",
+        "children": [
+          {
+            "kind": "TypeNominal",
+            "name": "Void",
+            "printedName": "()"
+          },
+          {
+            "kind": "TypeNominal",
+            "name": "Optional",
+            "printedName": "Swift.UnsafeMutableRawPointer?",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UnsafeMutableRawPointer",
+                "printedName": "Swift.UnsafeMutableRawPointer",
+                "usr": "s:Sv"
+              }
+            ],
+            "usr": "s:Sq"
+          }
+        ],
+        "declKind": "Func",
+        "usr": "c:(cm)freeNativeStringWithPtr:",
+        "mangledName": "$s5UMoth16freeNativeString3ptrySvSg_tF",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "AccessControl",
+          "CDecl"
+        ],
+        "funcSelfKind": "NonMutating"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "UMoth",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "os.log",
+        "printedName": "os.log",
+        "declKind": "Import",
+        "moduleName": "UMoth"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "UMoth"
       }
     ],
     "json_format_version": 8

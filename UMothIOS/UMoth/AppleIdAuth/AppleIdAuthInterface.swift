@@ -16,8 +16,13 @@ import AuthenticationServices
 import Security
 
 @_cdecl("umoth_appleid_auth_get_credential_state")
-public func getCredentialState(userId: UnsafePointer<CChar>, onResult: @convention(c) @escaping (AppleIdCredentialStateWrapper, UnsafePointer<CChar>?) -> Void) {
+public func getCredentialState(userId: UnsafePointer<CChar>?, onResult: @convention(c) @escaping (AppleIdCredentialStateWrapper, UnsafePointer<CChar>?) -> Void) {
     logger.log("Getting AppleID credential state.")
+    guard let userId = userId else {
+        logger.error("UserId is nil.")
+        onResult(AppleIdCredentialStateWrapper_PluginError, "UserId is nil.")
+        return
+    }
     
     let appleIDProvider = ASAuthorizationAppleIDProvider()
     appleIDProvider.getCredentialState(forUserID: String(cString: userId)) { (state, error) in
