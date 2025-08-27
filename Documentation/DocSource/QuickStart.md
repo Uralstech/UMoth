@@ -68,7 +68,7 @@ to your Web client ID.
 
 To sign in at runtime, just call [`SignIn()`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_SignIn_System_String_System_Boolean_System_Boolean_)
 and register to its callbacks ([`OnSignedIn`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_OnSignedIn) and [`OnSignInFailed`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_OnSignInFailed))
-or call [`SignInAsync()`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_SignInAsync_System_String_System_Boolean_System_Boolean_) to get the results asynchronously:
+or call [`SignInAsync()`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_SignInAsync_System_String_System_Boolean_System_Boolean_System_Threading_CancellationToken_) to get the results asynchronously:
 
 ```csharp
 using Uralstech.UMoth.GoogleSignIn;
@@ -91,7 +91,7 @@ Both `SignIn()` and `SignInAsync()` contain optional parameters to configure the
 ### Sign Out
 
 Like signing in, just call [`SignOut()`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_SignOut) and register to [`OnSignedOut`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_OnSignedOut) and [`OnSignOutFailed`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_OnSignOutFailed)
-or call [`SignOutAsync()`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_SignOutAsync) to get the results asynchronously:
+or call [`SignOutAsync()`](~/api/Uralstech.UMoth.GoogleSignIn.GoogleSignInManager.yml#Uralstech_UMoth_GoogleSignIn_GoogleSignInManager_SignOutAsync_System_Threading_CancellationToken_) to get the results asynchronously:
 
 ```csharp
 using Uralstech.UMoth.GoogleSignIn;
@@ -147,7 +147,7 @@ Add an instance of [`AppleIdSignInManager`](~/api/Uralstech.UMoth.AppleIdSignIn.
 
 To sign in at runtime, just call [`SignIn()`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_SignIn_Uralstech_UMoth_AppleIdSignIn_AppleIdScope_System_String_System_String_)
 and register to its callbacks ([`OnSignedIn`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_OnSignedIn) and [`OnSignInFailed`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_OnSignInFailed))
-or call [`SignInAsync()`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_SignInAsync_Uralstech_UMoth_AppleIdSignIn_AppleIdScope_System_String_System_String_) to get the results asynchronously.
+or call [`SignInAsync()`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_SignInAsync_Uralstech_UMoth_AppleIdSignIn_AppleIdScope_System_String_System_String_System_Threading_CancellationToken_) to get the results asynchronously.
 You can also specify what user data you want from their AppleID:
 
 ```csharp
@@ -175,7 +175,7 @@ Apple doesn't provide an API to programmatically sign the user out.
 
 ### Check AppleID Credential State
 
-You can check if the user has revoked authorization to their AppleID for the app using [`GetCredentialState`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_GetCredentialState_System_String_) and registering to its callback [`OnGotCredentialState`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_OnGotCredentialState) or by calling [`GetCredentialStateAsync`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_GetCredentialStateAsync_System_String_) to get the results asynchronously.
+You can check if the user has revoked authorization to their AppleID for the app using [`GetCredentialState`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_GetCredentialState_System_String_) and registering to its callback [`OnGotCredentialState`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_OnGotCredentialState) or by calling [`GetCredentialStateAsync`](~/api/Uralstech.UMoth.AppleIdSignIn.AppleIdSignInManager.yml#Uralstech_UMoth_AppleIdSignIn_AppleIdSignInManager_GetCredentialStateAsync_System_String_System_Threading_CancellationToken_) to get the results asynchronously.
 You will have to provide the user ID provided by Apple when you signed the user in. This example gets it from the current logged in Firebase Auth user:
 
 ```csharp
