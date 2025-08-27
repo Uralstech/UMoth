@@ -25,13 +25,6 @@
         ]
       },
       {
-        "kind": "Import",
-        "name": "Security",
-        "printedName": "Security",
-        "declKind": "Import",
-        "moduleName": "UMoth"
-      },
-      {
         "kind": "Function",
         "name": "getCredentialState",
         "printedName": "getCredentialState(userId:onResult:)",
