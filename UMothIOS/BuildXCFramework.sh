@@ -3,6 +3,7 @@
 SCHEME="UMoth"
 OUTPUT="build"
 XCFRAMEWORK_NAME="UMoth.xcframework"
+FRAMEWORK_NAME="UMoth.framework"
 
 xcodebuild archive \
   -scheme "$SCHEME" \
@@ -19,6 +20,6 @@ xcodebuild archive \
   SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
 xcodebuild -create-xcframework \
-  -framework "$OUTPUT/ios_devices.xcarchive/Products/Library/Frameworks/UMoth.framework" \
-  -framework "$OUTPUT/ios_simulator.xcarchive/Products/Library/Frameworks/UMoth.framework" \
+  -archive "$OUTPUT/ios_devices.xcarchive" -framework $FRAMEWORK_NAME \
+  -archive "$OUTPUT/ios_simulator.xcarchive" -framework $FRAMEWORK_NAME \
   -output "$OUTPUT/$XCFRAMEWORK_NAME"
