@@ -233,7 +233,11 @@ namespace Uralstech.UMoth.AppleIdSignIn
         {
 #if UNITY_IOS
             s_logger.Log("Starting the sign in process for iOS.");
-            NativeCalls.umoth_appleid_auth_start_sign_in((byte)requestedScopes, nonce, state, OnSignedInCallback, OnSignInFailedCallback);
+            if (!NativeCalls.umoth_appleid_auth_start_sign_in((byte)requestedScopes, nonce, state, OnSignedInCallback, OnSignInFailedCallback))
+            {
+                _onSignInFailed?.Invoke(AppleIdSignInErrorCode.PluginBusy);
+                OnSignInFailed.Invoke(AppleIdSignInErrorCode.PluginBusy);
+            }
 #else
             throw new NotSupportedException($"{nameof(AppleIdSignInManager)} does not have an implementation for {nameof(SignIn)} for the current platform.");
 #endif

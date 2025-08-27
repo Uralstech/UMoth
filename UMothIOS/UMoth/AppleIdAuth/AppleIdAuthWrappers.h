@@ -21,7 +21,9 @@ typedef enum : uint8_t {
     AppleIdCredentialStateWrapper_Revoked,
     AppleIdCredentialStateWrapper_Authorized,
     AppleIdCredentialStateWrapper_NotFound,
-    AppleIdCredentialStateWrapper_Transferred
+    AppleIdCredentialStateWrapper_Transferred,
+    
+    AppleIdCredentialStateWrapper_PluginError = 255
 } AppleIdCredentialStateWrapper;
 
 typedef enum : int16_t {
