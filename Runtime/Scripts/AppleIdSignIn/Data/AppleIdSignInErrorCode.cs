@@ -21,6 +21,14 @@ namespace Uralstech.UMoth.AppleIdSignIn
     public enum AppleIdSignInErrorCode
     {
         /// <summary>
+        /// The native plugin is already processing a sign in request.
+        /// </summary>
+        /// <remarks>
+        /// This is not a part of ASAuthorizationError.Code but a custom error returned by the native plugin interface.
+        /// </remarks>
+        PluginBusy = -2,
+
+        /// <summary>
         /// An unknown credential type was returned.
         /// </summary>
         /// <remarks>
