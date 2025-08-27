@@ -3,7 +3,11 @@
   "displayName": "UMoth",
   "description": "Google and AppleID authentication for mobile.",
   "keywords": [],
+<<<<<<< HEAD
   "version": "1.0.1",
+=======
+  "version": "1.0.0",
+>>>>>>> origin/master
   "hideInEditor": false,
   "author": {
     "name": "Udayshankar Ravikumar",
