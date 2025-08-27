@@ -1,9 +1,9 @@
 {
   "name": "com.uralstech.umoth",
   "displayName": "UMoth",
-  "description": "Google and Apple authentication for mobile.",
+  "description": "Google and AppleID authentication for mobile.",
   "keywords": [],
-  "version": "1.0.0-preview.2",
+  "version": "1.0.1",
   "hideInEditor": false,
   "author": {
     "name": "Udayshankar Ravikumar",
