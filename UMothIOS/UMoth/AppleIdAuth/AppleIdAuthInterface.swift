@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import AuthenticationServices
-import Security
 
 @_cdecl("umoth_appleid_auth_get_credential_state")
 public func getCredentialState(userId: UnsafePointer<CChar>?, onResult: @convention(c) @escaping (AppleIdCredentialStateWrapper, UnsafePointer<CChar>?) -> Void) {
