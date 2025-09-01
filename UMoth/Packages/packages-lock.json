@@ -48,11 +48,11 @@
       "dependencies": {
         "com.unity.modules.androidjni": "1.0.0",
         "com.uralstech.utils.singleton": "1.2.1",
-        "com.uralstech.utils.loggers": "1.0.0"
+        "com.uralstech.utils.loggers": "1.1.0"
       }
     },
     "com.uralstech.utils.loggers": {
-      "version": "1.0.0",
+      "version": "1.1.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
