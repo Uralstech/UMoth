@@ -11,7 +11,7 @@ Google and AppleID authentication for mobile.
 
 ## Installation
 
-This package was made for Unity 6.0 and above. Built and tested in Unity 6.2.
+This package was made for Unity 6.0 and above. Built and tested in Unity 6.4.
 
 Since this package contains a native AAR plugin, it depends on the [External Dependency Manager for Unity (EDM4U)](https://github.com/googlesamples/unity-jar-resolver) to resolve native dependencies.
 You may already have EDM4U if you use Google or Firebase SDKs in your Unity project. If you do not, the installation steps are available
