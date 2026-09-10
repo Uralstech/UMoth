@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.Events;
-using Uralstech.Utils.Loggers;
 using Uralstech.Utils.Singleton;
 
 #nullable enable
@@ -34,9 +33,6 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// The fully qualified name of the Kotlin plugin class.
         /// </summary>
         public const string AndroidNativeClass = "com.uralstech.umoth.GoogleAuth";
-
-        private static readonly string s_loggerTag = $"{nameof(UMoth)}.{nameof(GoogleSignInManager)}";
-        private static readonly TaggedRALogger s_logger = new(s_loggerTag);
 
         /// <summary>
         /// The server's client ID to use as the audience for Google ID tokens generated during the sign-in.
@@ -92,7 +88,7 @@ namespace Uralstech.UMoth.GoogleSignIn
             DontDestroyOnLoad(gameObject);
 
 #if UNITY_ANDROID
-            s_logger.Log("Initializing for Android.");
+            Debug.Log($"{nameof(GoogleSignInManager)}: Initializing for Android.");
 
             using AndroidJavaClass classObject = new(AndroidNativeClass);
             _pluginInstance = classObject.CallStatic<AndroidJavaObject>("getInstance", AndroidApplication.currentContext);
@@ -103,7 +99,7 @@ namespace Uralstech.UMoth.GoogleSignIn
 #if UNITY_ANDROID
         protected void OnDestroy()
         {
-            s_logger.Log("Releasing native resources for Android");
+            Debug.Log($"{nameof(GoogleSignInManager)}: Releasing native resources for Android");
             _pluginInstance?.Dispose();
             _pluginInstance = null;
         }
@@ -148,7 +144,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         public void SignIn(string? nonce = null, bool filterByAuthorizedAccount = true, bool autoSelectSignIn = true)
         {
 #if UNITY_ANDROID
-            s_logger.Log("Starting the sign in process for Android.");
+            Debug.Log($"{nameof(GoogleSignInManager)}: Starting the sign in process for Android.");
             _pluginInstance!.Call("startSignIn", _callbackReceiver, ServerClientId, nonce, filterByAuthorizedAccount, autoSelectSignIn);
 #else
             throw new NotSupportedException($"{nameof(GoogleSignInManager)} does not have an implementation for {nameof(SignIn)} for the current platform.");
@@ -188,7 +184,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         public void SignOut()
         {
 #if UNITY_ANDROID
-            s_logger.Log("Starting the sign out process for Android.");
+            Debug.Log($"{nameof(GoogleSignInManager)}: Starting the sign out process for Android.");
             _pluginInstance!.Call("startSignOut", _callbackReceiver);
 #else
             throw new NotSupportedException($"{nameof(GoogleSignInManager)} does not have an implementation for {nameof(SignOut)} for the current platform.");
@@ -199,7 +195,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// <inheritdoc/>
         void IGoogleAuthCallbackReceiver.OnSignedIn(GoogleIdTokenCredential credential)
         {
-            s_logger.Log("Signed in with Google account.");
+            Debug.Log($"{nameof(GoogleSignInManager)}: Signed in with Google account.");
             _onSignedIn?.Invoke(credential);
             OnSignedIn.Invoke(credential);
         }
@@ -207,7 +203,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// <inheritdoc/>
         void IGoogleAuthCallbackReceiver.OnSignInFailed(GoogleSignInErrorCode reason)
         {
-            s_logger.Log("Could not sign in with Google account, failure reason: {0}", reason);
+            Debug.Log($"{nameof(GoogleSignInManager)}: Could not sign in with Google account, failure reason: {reason}");
             _onSignInFailed?.Invoke(reason);
             OnSignInFailed.Invoke(reason);
         }
@@ -215,7 +211,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// <inheritdoc/>
         void IGoogleAuthCallbackReceiver.OnSignedOut()
         {
-            s_logger.Log("Signed out of Google account.");
+            Debug.Log($"{nameof(GoogleSignInManager)}: Signed out of Google account.");
             _onSignedOut?.Invoke();
             OnSignedOut.Invoke();
         }
@@ -223,7 +219,7 @@ namespace Uralstech.UMoth.GoogleSignIn
         /// <inheritdoc/>
         void IGoogleAuthCallbackReceiver.OnSignOutFailed()
         {
-            s_logger.Log("Could not sign out of Google account.");
+            Debug.Log($"{nameof(GoogleSignInManager)}: Could not sign out of Google account.");
             _onSignOutFailed?.Invoke();
             OnSignOutFailed.Invoke();
         }

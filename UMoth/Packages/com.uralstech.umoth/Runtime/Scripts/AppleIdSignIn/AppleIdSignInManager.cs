@@ -16,7 +16,6 @@ using AOT;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using Uralstech.Utils.Loggers;
 using Uralstech.Utils.Singleton;
 using System.Threading.Tasks;
 using System.Threading;
@@ -34,9 +33,6 @@ namespace Uralstech.UMoth.AppleIdSignIn
     [AddComponentMenu("Uralstech/UMoth/AppleID Sign-In Manager")]
     public class AppleIdSignInManager : DontCreateNewSingleton<AppleIdSignInManager>
     {
-        private static readonly string s_loggerTag = $"{nameof(UMoth)}.{nameof(AppleIdSignInManager)}";
-        private static readonly TaggedRALogger s_logger = new(s_loggerTag);
-
         /// <summary>
         /// Called when the sign-in flow succeeds, with the AppleID credential.
         /// </summary>
@@ -93,7 +89,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
         [MonoPInvokeCallback(typeof(NativeCalls.OnSignedInCallback))]
         private static async void OnSignedInCallback(NativeAppleIdCredential nativeCredential)
         {
-            s_logger.Log("Signed in successfully, wrapping and releasing native data.");
+            Debug.Log($"{nameof(AppleIdSignInManager)}: Signed in successfully, wrapping and releasing native data.");
             NativePersonNameComponents? nativeFullName = nativeCredential.UnwrapFullName();
             AppleIdCredential managedCredential = new(
                 userId: MemoryUtils.ReadAnsiString(nativeCredential.UserId)!,
@@ -110,7 +106,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
             nativeCredential.Dispose();
             nativeFullName?.Dispose();
 
-            s_logger.Log("Native data wrapped and disposed, calling listeners.");
+            Debug.Log($"{nameof(AppleIdSignInManager)}: Native data wrapped and disposed, calling listeners.");
 
             await Awaitable.MainThreadAsync();
             Instance._onSignedIn?.Invoke(managedCredential);
@@ -121,7 +117,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
         private static async void OnSignInFailedCallback(short nativeErrorCode)
         {
             AppleIdSignInErrorCode managedErrorCode = (AppleIdSignInErrorCode)nativeErrorCode;
-            s_logger.LogError($"Sign in failed with error code: {managedErrorCode}");
+            Debug.LogError($"{nameof(AppleIdSignInManager)}: Sign in failed with error code: {managedErrorCode}");
 
             await Awaitable.MainThreadAsync();
             Instance._onSignInFailed?.Invoke(managedErrorCode);
@@ -136,9 +132,9 @@ namespace Uralstech.UMoth.AppleIdSignIn
             MemoryUtils.TryReleaseString(errorDescription);
 
             if (string.IsNullOrEmpty(managedErrorDescription))
-                s_logger.Log($"Got credential state: {managedState}");
+                Debug.Log($"{nameof(AppleIdSignInManager)}: Got credential state: {managedState}");
             else
-                s_logger.LogError($"Got credential state {managedState} with error: {managedErrorDescription}");
+                Debug.LogError($"{nameof(AppleIdSignInManager)}: Got credential state {managedState} with error: {managedErrorDescription}");
 
             await Awaitable.MainThreadAsync();
             Instance._onGotCredentialState?.Invoke(managedState, managedErrorDescription);
@@ -186,7 +182,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
         public void GetCredentialState(string userId)
         {
 #if UNITY_IOS
-            s_logger.Log("Getting the credential state from iOS.");
+            Debug.Log($"{nameof(AppleIdSignInManager)}: Getting the credential state from iOS.");
             NativeCalls.umoth_appleid_auth_get_credential_state(userId, GetCredentialStateCallback);
 #else
             throw new NotSupportedException($"{nameof(AppleIdSignInManager)} does not have an implementation for {nameof(GetCredentialState)} for the current platform.");
@@ -232,7 +228,7 @@ namespace Uralstech.UMoth.AppleIdSignIn
         public void SignIn(AppleIdScope requestedScopes, string? nonce = null, string? state = null)
         {
 #if UNITY_IOS
-            s_logger.Log("Starting the sign in process for iOS.");
+            Debug.Log($"{nameof(AppleIdSignInManager)}: Starting the sign in process for iOS.");
             if (!NativeCalls.umoth_appleid_auth_start_sign_in((byte)requestedScopes, nonce, state, OnSignedInCallback, OnSignInFailedCallback))
             {
                 _onSignInFailed?.Invoke(AppleIdSignInErrorCode.PluginBusy);
