@@ -3,7 +3,7 @@
   "displayName": "UMoth",
   "description": "Google and AppleID authentication for mobile.",
   "keywords": [],
-  "version": "1.0.3",
+  "version": "1.0.4",
   "hideInEditor": false,
   "documentationUrl": "https://uralstech.github.io/UMoth/",
   "changelogUrl": "https://github.com/Uralstech/UMoth/releases",
@@ -19,8 +19,7 @@
   },
   "dependencies": {
     "com.unity.modules.androidjni": "1.0.0",
-    "com.uralstech.utils.singleton": "1.2.1",
-    "com.uralstech.utils.loggers": "1.1.0"
+    "com.uralstech.utils.singleton": "2.0.0"
   },
   "unity": "6000.0"
 }

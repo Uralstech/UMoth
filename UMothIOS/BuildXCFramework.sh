@@ -5,6 +5,9 @@ OUTPUT="build"
 XCFRAMEWORK_NAME="UMoth.xcframework"
 FRAMEWORK_NAME="UMoth.framework"
 
+rm -rf "$OUTPUT"
+mkdir -p "$OUTPUT"
+
 xcodebuild archive \
   -scheme "$SCHEME" \
   -configuration Release \

@@ -2,17 +2,25 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+}
+
+val moduleNamespace = "com.uralstech.umoth"
+
+base {
+    archivesName.set(moduleNamespace)
 }
 
 android {
-    namespace = "com.uralstech.umoth"
-    compileSdk = 35
+    namespace = moduleNamespace
+
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 0
+        }
+    }
 
     defaultConfig {
         minSdk = 23
-
-        setProperty("archivesBaseName", "$namespace")
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -39,7 +47,6 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
