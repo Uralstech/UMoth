@@ -55,7 +55,8 @@ PluginImporter:
         AddToEmbeddedBinaries: true
         CPU: AnyCPU
         CompileFlags: 
-        FrameworkDependencies: AuthenticationServices;
+        FrameworkDependencies: Foundation;UIKit;AuthenticationServices;
+        XcodeProjectType: All
   userData: 
   assetBundleName: 
   assetBundleVariant: 

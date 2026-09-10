@@ -1,6 +1,6 @@
 ---
 triple:          'arm64-apple-darwin'
-binary-path:     '/Users/celeste/Library/Developer/Xcode/DerivedData/UMoth-gjkrlnzpyxxsyudovawszjaaszbu/Build/Intermediates.noindex/ArchiveIntermediates/UMoth/InstallationBuildProductsLocation/Library/Frameworks/UMoth.framework/UMoth'
+binary-path:     '/Users/celeste/Library/Developer/Xcode/DerivedData/UMoth-gfpbhexzgxxhdpevbnaobjpkafcu/Build/Intermediates.noindex/ArchiveIntermediates/UMoth/InstallationBuildProductsLocation/Library/Frameworks/UMoth.framework/UMoth'
 relocations:
   - { offset: 0x533C7, size: 0x8, addend: 0x0, symName: _UMothVersionString, symObjAddr: 0x0, symBinAddr: 0xA190, symSize: 0x0 }
   - { offset: 0x533FE, size: 0x8, addend: 0x0, symName: _UMothVersionNumber, symObjAddr: 0x28, symBinAddr: 0xA1B8, symSize: 0x0 }
@@ -92,10 +92,10 @@ relocations:
   - { offset: 0x56975, size: 0x8, addend: 0x0, symName: '_$sSo24AppleIdCredentialWrapperaIetCy_ABIegy_TRTA', symObjAddr: 0xFC0, symBinAddr: 0x76E0, symSize: 0x34 }
   - { offset: 0x569A9, size: 0x8, addend: 0x0, symName: '_$sSo29AppleIdAuthorizationErrorCodeaIetCy_ABIegy_TRTA', symObjAddr: 0x1004, symBinAddr: 0x7714, symSize: 0xC }
   - { offset: 0x56CE3, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedCfD', symObjAddr: 0x0, symBinAddr: 0x7728, symSize: 0x10 }
-  - { offset: 0x56D07, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC31authPresentationContextProviderAA0d10ControllergI0CSgvpZ', symObjAddr: 0x1960, symBinAddr: 0x15420, symSize: 0x0 }
-  - { offset: 0x56D2C, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC14onSignInFailedySo0bC22AuthorizationErrorCodeacSgvpZ', symObjAddr: 0x1968, symBinAddr: 0x15428, symSize: 0x0 }
-  - { offset: 0x56D46, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC10onSignedInySo0bC17CredentialWrapperacSgvpZ', symObjAddr: 0x1978, symBinAddr: 0x15438, symSize: 0x0 }
-  - { offset: 0x56D60, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC12authDelegateAA0bcdG0CSgvpZ', symObjAddr: 0x1988, symBinAddr: 0x15448, symSize: 0x0 }
+  - { offset: 0x56D07, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC31authPresentationContextProviderAA0d10ControllergI0CSgvpZ', symObjAddr: 0x1940, symBinAddr: 0x15420, symSize: 0x0 }
+  - { offset: 0x56D2C, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC14onSignInFailedySo0bC22AuthorizationErrorCodeacSgvpZ', symObjAddr: 0x1948, symBinAddr: 0x15428, symSize: 0x0 }
+  - { offset: 0x56D46, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC10onSignedInySo0bC17CredentialWrapperacSgvpZ', symObjAddr: 0x1958, symBinAddr: 0x15438, symSize: 0x0 }
+  - { offset: 0x56D60, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedC12authDelegateAA0bcdG0CSgvpZ', symObjAddr: 0x1968, symBinAddr: 0x15448, symSize: 0x0 }
   - { offset: 0x56D91, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedCMa', symObjAddr: 0x10, symBinAddr: 0x7738, symSize: 0x20 }
   - { offset: 0x56E3A, size: 0x8, addend: 0x0, symName: '_$s5UMoth17AppleIdAuthSharedCfD', symObjAddr: 0x0, symBinAddr: 0x7728, symSize: 0x10 }
   - { offset: 0x56F32, size: 0x8, addend: 0x0, symName: '_$s5UMoth34AuthControllerPresentationProviderC18presentationAnchor3forSo8UIWindowCSo015ASAuthorizationC0C_tFTo', symObjAddr: 0x0, symBinAddr: 0x7758, symSize: 0x14 }
