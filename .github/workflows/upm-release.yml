@@ -38,7 +38,7 @@ jobs:
       run: |
         mkdir -p "UMoth/Packages/com.uralstech.umoth/Documentation~"
         cp -f "Documentation/_site/api/APIReferenceManual.pdf" "UMoth/Packages/com.uralstech.umoth/Documentation~"
-        cp -f "Documentation/_site/docs/Documentation.pdf" "UMoth/Packages/com.uralstech.umoth/Documentation~"
+        cp -f "Documentation/_site/DocSource/Documentation.pdf" "UMoth/Packages/com.uralstech.umoth/Documentation~"
 
     - name: Commit PDFs *locally*
       run: |
