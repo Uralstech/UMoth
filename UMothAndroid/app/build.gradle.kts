@@ -13,11 +13,7 @@ base {
 android {
     namespace = moduleNamespace
 
-    compileSdk {
-        version = release(37) {
-            minorApiLevel = 0
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 23
