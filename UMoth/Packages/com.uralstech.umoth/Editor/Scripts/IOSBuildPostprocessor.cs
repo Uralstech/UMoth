@@ -35,7 +35,7 @@ public class IOSBuildPostprocessor : IPostprocessBuildWithReport
         project.ReadFromFile(projectPath);
 
         string mainTargetGuid = project.GetUnityMainTargetGuid();
-        string entitlementFilePath = project.GetEntitlementFilePathForTarget(mainTargetGuid);
+        string entitlementFilePath = project.GetEntitlementFilePathForTarget(mainTargetGuid) ?? "Entitlements.entitlements";
 
         ProjectCapabilityManager capabilityManager = new(projectPath, entitlementFilePath, targetGuid: mainTargetGuid);
         capabilityManager.AddSignInWithApple();
