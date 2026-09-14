@@ -17,7 +17,6 @@
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEditor.iOS.Xcode;
-using UnityEngine;
 
 /// <summary>
 /// Patches the built XCode project to include the Sign In with Apple capability.
