@@ -17,6 +17,7 @@
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEditor.iOS.Xcode;
+using UnityEngine;
 
 /// <summary>
 /// Patches the built XCode project to include the Sign In with Apple capability.
@@ -35,7 +36,7 @@ public class IOSBuildPostprocessor : IPostprocessBuildWithReport
         project.ReadFromFile(projectPath);
 
         string mainTargetGuid = project.GetUnityMainTargetGuid();
-        string entitlementFilePath = project.GetEntitlementFilePathForTarget(mainTargetGuid);
+        string entitlementFilePath = project.GetEntitlementFilePathForTarget(mainTargetGuid) ?? "Entitlements.entitlements";
 
         ProjectCapabilityManager capabilityManager = new(projectPath, entitlementFilePath, targetGuid: mainTargetGuid);
         capabilityManager.AddSignInWithApple();
