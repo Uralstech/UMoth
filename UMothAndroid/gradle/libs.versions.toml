@@ -1,15 +1,17 @@
 [versions]
-agp = "9.0.0"
+agp = "9.1.1"
 credentials = "1.6.0"
 credentialsPlayServicesAuth = "1.6.0"
-googleid = "1.2.0"
-coreKtx = "1.18.0"
+googleid = "1.2.1"
+coreKtx = "1.19.1"
+kotlinGradlePlugin = "2.4.20"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "agp" }
