@@ -2,10 +2,28 @@
 
 Please note that the code provided in this page is *purely* for learning purposes and is far from perfect. Remember to null-check all responses!
 
+> [!IMPORTANT]
+> The native iOS plugin does not yet support Unity's new Swift Xcode project type.
+
 ## Breaking Changes Notice
 
-This package supports Google Sign In for Android 6.0+ (API level 23) and Sign in With Apple for iOS 14.0+. If you've just updated the package, it is recommended to check
+This package supports Google Sign In for Android 6.0+ (API level 23) and Sign in With Apple for iOS 15.0+. If you've just updated the package, it is recommended to check
 the [*changelogs*](https://github.com/Uralstech/UMoth/releases) for information on breaking changes.
+
+## Gradle Template Setup
+
+Since this package aims to use the latest stable version of core KTX, your app's launcher must be compiled against API level 37 or higher:
+
+- Under Player -> Publishing Settings, check "Custom Main Gradle Template" and "Custom Launcher Gradle Template" if they are unchecked.
+- Open the `launcherTemplate.gradle` file created in Assets -> Plugins -> Android, and change this line:
+```gradle
+compileSdk **APIVERSION**
+```
+to
+```gradle
+compileSdk 37
+```
+- Make the same change in `mainTemplate.gradle`
 
 ## Integrate Google Sign-In (Android)
 
